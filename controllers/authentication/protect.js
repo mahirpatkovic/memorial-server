@@ -5,8 +5,12 @@ const catchAsync = require('../../utils/catchAsync');
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token = null;
-
-  if (req.headers.cookies && req.headers.cookes.startsWith('token')) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.headers.cookies && req.headers.cookes.startsWith('token')) {
     token = req.headers.authorization.split('=')[1];
   } else if (req.cookies.token) {
     token = req.cookies.token;
@@ -22,7 +26,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 2) Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if user still exists
+  // // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return res.status(401).json({
