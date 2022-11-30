@@ -45,31 +45,32 @@ app.use(cookieParser());
 
 //     next();
 // });
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header(
-    'Access-Control-Allow-Methods',
-    'GET, PUT, POST, DELETE, PATCH, OPTIONS'
-  );
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization'
-  );
-  if ('OPTIONS' == req.method) {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', req.headers.origin);
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header(
+//     'Access-Control-Allow-Methods',
+//     'GET, PUT, POST, DELETE, PATCH, OPTIONS'
+//   );
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization'
+//   );
+//   if ('OPTIONS' == req.method) {
+//     res.sendStatus(200);
+//   } else {
+//     next();
+//   }
+// });
+
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? process.env.PROD_HOST
+        : process.env.DEV_HOST,
     optionsSuccessStatus: 200,
-    // process.env.NODE_ENV === 'production'
-    //     ? 'http://srebrenicamemorial.heorukuapp.com'
-    //     : 'http://localhost:3000',
   })
 );
 
