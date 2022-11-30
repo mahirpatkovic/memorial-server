@@ -15,7 +15,7 @@ exports.createSendToken = (user, statusCode, req, res) => {
   res.cookie('token', token, {
     expires: new Date(process.env.JWT_COOKIE_EXPIRES_IN * expiresAt),
     httpOnly: true,
-    secure: true,
+    // secure: true,
     // sameSite: 'none',
   });
 
