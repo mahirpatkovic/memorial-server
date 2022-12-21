@@ -5,7 +5,7 @@ const catchAsync = require('../../utils/catchAsync');
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token = null;
-  console.log(req.headers);
+  // console.log(req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
