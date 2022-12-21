@@ -5,12 +5,23 @@ const catchAsync = require('../../utils/catchAsync');
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token = null;
-
-  if (req.headers.cookies && req.headers.cookes.startsWith('token')) {
-    token = req.headers.authorization.split('=')[1];
+  console.log(req.headers);
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+  if (req.headers.authorization.split(' ')[1] === 'null') {
+    token = req.cookies.token;
   } else if (req.cookies.token) {
     token = req.cookies.token;
   }
+  // if (req.headers.cookies && req.headers.cookes.startsWith('token')) {
+  //   token = req.headers.authorization.split('=')[1];
+  // } else if (req.cookies.token) {
+  //   token = req.cookies.token;
+  // }
 
   if (!token) {
     return res.status(401).json({
